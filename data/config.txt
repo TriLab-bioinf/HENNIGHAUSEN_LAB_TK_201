@@ -11,7 +11,7 @@
 INPUTFILE_1=/data/COVID19-RNAseq/2way_test/WGS_script_HERNAN/input_1.txt
 INPUTFILE_2=/data/COVID19-RNAseq/2way_test/WGS_script_HERNAN/input_2.txt
 
-METADATA=./samplesheet.csv
+METADATA=./data/samplesheet.csv
 
 ##################
 
