@@ -14,7 +14,7 @@ check_file(){
 
 CONFIG=$1
 if [[ -z $1 ]]; then
-    CONFIG=${PWD}/config.txt
+    CONFIG=${PWD}/data/config.txt
 fi
 check_file $CONFIG
 
