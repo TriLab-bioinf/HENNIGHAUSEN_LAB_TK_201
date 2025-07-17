@@ -1,0 +1,61 @@
+##############################################################
+# Parameters for SNP identification pipeline for RNAseq data #
+##############################################################
+
+# Expected format for fastq file name: 
+# ${SAMPLE}_R1_001.fastq.gz 
+# ${SAMPLE}_R2_001.fastq.gz
+
+# Input files with path to each fastq file for forward and reverse reads
+
+INPUTFILE_1=/data/COVID19-RNAseq/2way_test/WGS_script_HERNAN/input_1.txt
+INPUTFILE_2=/data/COVID19-RNAseq/2way_test/WGS_script_HERNAN/input_2.txt
+
+METADATA=./samplesheet.csv
+
+##################
+
+# Reference:
+
+# Path to annotation file in gtf format  (full path)
+GTF=/fdb/igenomes_nf/Homo_sapiens/NCBI/GRCh38/Annotation/Genes/genes.gtf
+# Path to reference genome in fasta format  (full path)
+GENOME=/fdb/igenomes_nf/Homo_sapiens/GATK/GRCh38/Sequence/WholeGenomeFasta/Homo_sapiens_assembly38.fasta
+# Path to reference genome dict file  (full path)
+DICT=/fdb/igenomes_nf/Homo_sapiens/GATK/GRCh38/Sequence/WholeGenomeFasta/Homo_sapiens_assembly38.dict
+# Path to known dbsnp sites hapmap_3.3.hg38.vcf.gz  (full path)
+DBSNP=/fdb/igenomes_nf/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/dbsnp_146.hg38.vcf.gz
+# Path to hapmap for VariantRecalibrator  (full path)
+HAPMAP=/fdb/igenomes_nf/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/hapmap_3.3.hg38.vcf.gz
+# Path to 1000 genomes for VariantRecalibrator  (full path)
+_1000G_OMNI=/fdb/igenomes_nf/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/1000G_omni2.5.hg38.vcf.gz
+# Path to 1000 genomes high confidence SNPs  (full path)
+_1000G_SNP=/fdb/igenomes_nf/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/1000G_phase1.snps.high_confidence.hg38.vcf.gz
+# Path to Mills gold standard indels for VariantRecalibrator  (full path)
+MILLS=/fdb/igenomes_nf/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
+# Path to Axiom indel callset based on the Affymetrix Axiom array on 1000 Genomes Project for VariantRecalibrator  (full path)
+AXIOM=/fdb/igenomes_nf/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/Axiom_Exome_Plus.genotypes.all_populations.poly.hg38.vcf.gz
+# Path to bwa mem2 reference genome index prefix (full path)
+BWADB_MEM2=/fdb/igenomes_nf/Homo_sapiens/GATK/GRCh38/Sequence/BWAmem2Index/Homo_sapiens_assembly38.fasta
+# Exon interval bed file for WES
+INTERVALS=data/intervals/exons_intervals.merged.bed
+# Whole chromosome intervals for GenomicsDBImport
+WHOLE_CHROM_INTERVALS=data/intervals/whole_chr_intervals.bed
+
+# Trimming adapters
+ADAPTERS=data/adapters/adapters.fa
+
+# Reads directory (full path)
+READS=/home/lorenziha/data/Lothar_Hennighausen/TK_201/WES_PIPELINE_BASH/reads
+
+# Set remove_duplicated_reads to "False" if you want to just 
+# flag the reads as duplicated but not remove them from the bam file.
+REMOVE_DUPLICATED_READS=False
+
+# SNP database action
+# DB_ACTION="create",  # optional: output directory must be empty or non-existent. 
+# If you want to update an existing DB, set DB_ACTION param to "update".
+DB_ACTION=create
+
+
+
