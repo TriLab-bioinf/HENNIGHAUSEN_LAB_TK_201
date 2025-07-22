@@ -17,7 +17,7 @@ How to run the Whole Exome/Genome Sequencing SNP identification pipeline on NIH'
 cd /data/$USER
 
 # Clone/download the pipeline
-git clone <repository-url> wgs-pipeline
+git clone https://github.com/TriLab-bioinf/HENNIGHAUSEN_LAB_TK_201.git wgs-pipeline
 cd wgs-pipeline
 
 # Make scripts executable
