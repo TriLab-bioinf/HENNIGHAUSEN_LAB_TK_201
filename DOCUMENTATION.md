@@ -7,7 +7,7 @@ This repository contains a comprehensive bash-based pipeline for processing whol
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
 - [Pipeline Architecture](#pipeline-architecture)
-- [Traking completed jobs](#tracking-of-job-completions)
+- [Traking completed jobs](#job-completion-tracking)
 - [Installation and Setup](#installation-and-setup)
 - [Configuration](#configuration)
 - [Running the Pipeline](#running-the-pipeline)
