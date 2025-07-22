@@ -1,84 +1,148 @@
-#################################
-### BEFORE RUNNING
-#################################
+# WGS Pipeline Quick Start (Biowulf Cluster)
 
-1) Start and interactive session
-```
-sinteractive
-```
+A streamlined guide to run the Whole Genome Sequencing SNP identification pipeline on NIH's Biowulf cluster.
 
-2) Edit the config.txt file 
+## Prerequisites
 
-3) Edit the input_1.txt (for read-1 files) and input_2.txt (for read-2 files) files so they point to the fastq sequencing files to be processed
-   One sample per row 
+- Access to Biowulf cluster
+- FASTQ files from Illumina sequencing
+- Basic knowledge of SLURM job submission
 
-4) Set the CONFIG variable pointing to the configuration file
-```
-CONFIG=config.txt
-```
+## Quick Setup
 
-#################################
-### GATK
-#################################
+### 1. Download and Setup
 
-1) FASTQC
-```
-swarm  --sbatch "--export=CONFIG_FILE=${CONFIG}" --logdir ./00-swarm-log --job-name step1-fastqc  -f ./scripts/WGS-pipeline-step1-fastqc.swarm
+```bash
+# Navigate to your data directory
+cd /data/$USER
+
+# Clone/download the pipeline
+git clone <repository-url> wgs-pipeline
+cd wgs-pipeline
+
+# Make scripts executable
+chmod +x run_wgs_workflow.sh scripts/*.sh
 ```
 
-2) MAPPING
-```
-swarm  --sbatch "--export=CONFIG_FILE=${CONFIG}" --logdir ./00-swarm-log --job-name step2-mapping -f ./scripts/WGS-pipeline-step2-mapping.swarm
+### 2. Configure Sample Sheet
+
+Edit `data/samplesheet.csv` with your samples:
+
+```csv
+sample_ID,replicate_ID,flowcell_ID,lane,library,technology,fastq_1,fastq_2
+SAMPLE1,A,FC001,001,1,Illumina,SAMPLE1_R1.fastq.gz,SAMPLE1_R2.fastq.gz
+SAMPLE2,A,FC001,002,1,Illumina,SAMPLE2_R1.fastq.gz,SAMPLE2_R2.fastq.gz
 ```
 
-3) SPLIT CHR
-```
-swarm  --sbatch "--export=CONFIG_FILE=${CONFIG}" --logdir ./00-swarm-log --job-name step3-split -f ./scripts/WGS-pipeline-step3-split.swarm
+### 3. Update Configuration
+
+Edit `data/config.txt` - **only change these lines**:
+
+```bash
+# Update this path to your FASTQ files location
+READS=/data/$USER/path/to/your/fastq/files
+
+# For first run (create new database)
+DB_ACTION=create
+
+# For adding samples to existing results
+# DB_ACTION=update
 ```
 
-4) DELETE DISCORDANT READS
-```
-swarm  --sbatch "--export=CONFIG_FILE=${CONFIG}" --logdir ./00-swarm-log --job-name step4-cleanBAM -f ./scripts/WGS-pipeline-step4-cleanBAM.swarm
+**Note**: All reference files and modules are pre-configured for Biowulf.
+
+## Run Pipeline
+
+### First Time Run
+
+```bash
+# Submit the pipeline
+./run_wgs_workflow.sh
+
+# Monitor jobs
+squeue -u $USER
 ```
 
-5) MARK DUPLICATES
-```
-swarm  --sbatch "--export=CONFIG_FILE=${CONFIG}" --logdir ./00-swarm-log --job-name step5-MarkDuplicates -f ./scripts/WGS-pipeline-step5-MarkDuplicates.swarm
+### Adding New Samples
+
+1. Add new samples to `data/samplesheet.csv`
+2. Change `DB_ACTION=update` in `data/config.txt`
+3. Run: `./run_wgs_workflow.sh`
+
+## Monitor Progress
+
+```bash
+# Check running jobs
+squeue -u $USER
+
+# View log files
+ls log/
+tail -f log/<run_id>.trim.SAMPLE1
+
+# Check completed steps
+ls track/
 ```
 
-6) BASE RECALIBRATION
+## Key Directories and Output Files
+
 ```
-swarm  --sbatch "--export=CONFIG_FILE=${CONFIG}" --logdir ./00-swarm-log --job-name step6-recalibration -f ./scripts/WGS-pipeline-step6-recalibration.swarm
+├── log/                    # SLURM job logs
+│   ├── <run_id>.trim.*     # Trimming logs
+│   ├── <run_id>.align.*    # Alignment logs
+│   ├── <run_id>.dedup.*    # Duplicate marking logs
+│   ├── <run_id>.recal.*    # Recalibration logs
+│   └── <run_id>.hapcall.*  # Variant calling logs
+├── track/                  # Intermediate tracking files
+└── results/                # Final output files (created by scripts)
+    ├── trimmed/           # Quality-trimmed FASTQ files
+    ├── aligned/           # Aligned BAM files
+    ├── dedup/             # Deduplicated BAM files
+    ├── recal/             # Recalibrated BAM files
+    ├── gvcf/              # Individual GVCF files
+    └── vcf/               # Final VCF files
 ```
 
-7) SPLIT RECALIBRATED BAM FILES
-```
-swarm  --sbatch "--export=CONFIG_FILE=${CONFIG}" --logdir ./00-swarm-log --job-name step7-split -f ./scripts/WGS-pipeline-step7-split.swarm
+## Troubleshooting
+
+### Common Issues
+
+1. **Job failures**: Check logs in `log/` directory
+2. **File not found**: Verify `READS` path in `config.txt`
+3. **Permission errors**: Ensure scripts are executable (`chmod +x`)
+
+### Restart Failed Jobs
+
+The pipeline automatically resumes from the last completed step. To force rerun:
+
+```bash
+# Rerun specific sample step
+rm track/SAMPLE1.trim.OK
+
+# Rerun all steps for a sample
+rm track/SAMPLE1.*.OK
+
+# Start completely fresh
+rm track/*.OK
 ```
 
-8) VARIANT CALLING
-```
-swarm  --sbatch "--export=CONFIG_FILE=${CONFIG}" --logdir ./00-swarm-log --job-name step8-VariantCalling -f ./scripts/WGS-pipeline-step8-VariantCalling.swarm
-```
+---
 
-9) Filter VGF files
-```
-swarm  --sbatch "--export=CONFIG_FILE=${CONFIG}" --logdir ./00-swarm-log --job-name step9-filterVariants -f ./scripts/WGS-pipeline-step9-filterVariants.swarm
-```
+For detailed documentation, see `README_bash.md`
 
+## Quick Commands Reference
 
-#################################
-### IF YOU WANT TO CHANGE THE RUNTIME
-#################################
-```
-newwall --jobid JOBID --time HH:MM:SS
-```
+```bash
+# Check job status
+squeue -u $USER
 
-#################################
-### IF YOU WANT TO CANCEL YOUR JOB
-#################################
-```
-scancel JOBID
-```
+# Cancel all jobs
+scancel -u $USER
 
-# HENNIGHAUSEN_TK_201
+# Check disk usage
+du -skh .
+
+# Check sample sheet
+module load csvkit
+csvstat -K 14 data/samplesheet.csv
+
+```
