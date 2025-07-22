@@ -459,16 +459,3 @@ The pipeline generates several types of output files:
 - Generates final filtered VCF
 
 ---
-
-## Support
-
-For questions or issues:
-
-1. Check the troubleshooting section above
-2. Review SLURM job logs in the `log/` directory
-3. Consult GATK documentation for tool-specific issues
-4. Contact your system administrator for cluster-related problems
-
-## License
-
-This pipeline is provided as-is for research purposes. Please cite appropriate tools and references when using this pipeline in publications.
