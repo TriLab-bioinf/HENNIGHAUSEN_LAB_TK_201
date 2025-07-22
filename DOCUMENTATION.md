@@ -1,4 +1,4 @@
-# Whole Genome Sequencing (WGS) Pipeline (Human genome)
+# Whole Exome/Genome Sequencing (WES/WGS) SNP Identification Pipeline (Human genome)
 
 This repository contains a comprehensive bash-based pipeline for processing whole genome sequencing (WGS) data using GATK best practices. The pipeline performs quality control, alignment, variant calling, and variant quality score recalibration (VQSR).
 
