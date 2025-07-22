@@ -127,7 +127,7 @@ rm track/*.OK
 
 ---
 
-For detailed documentation, see `DOCUMENTATION.md`
+For detailed documentation, see [DOCUMENTATION.md](./DOCUMENTATION.md)
 
 ## Quick Commands Reference
 
