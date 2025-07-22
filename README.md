@@ -1,4 +1,4 @@
-# WGS Pipeline Quick Start (Biowulf Cluster)
+# WES/WGS SNP Identification Pipeline Quick Start (Biowulf Cluster)
 
 How to run the Whole Exome/Genome Sequencing SNP identification pipeline on NIH's Biowulf cluster.
 
