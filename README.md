@@ -1,6 +1,6 @@
 # WGS Pipeline Quick Start (Biowulf Cluster)
 
-A streamlined guide to run the Whole Genome Sequencing SNP identification pipeline on NIH's Biowulf cluster.
+How to run the Whole Genome Sequencing SNP identification pipeline on NIH's Biowulf cluster.
 
 ## Prerequisites
 
