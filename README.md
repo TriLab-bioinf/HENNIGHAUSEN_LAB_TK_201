@@ -127,7 +127,7 @@ rm track/*.OK
 
 ---
 
-For detailed documentation, see `README_bash.md`
+For detailed documentation, see `DOCUMENTATION.md`
 
 ## Quick Commands Reference
 
