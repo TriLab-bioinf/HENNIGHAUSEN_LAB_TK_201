@@ -172,7 +172,7 @@ snpdb_jobids+=($(sbatch --cpus-per-task=8 --mem=64g --time=8:00:00 \
     --dependency=afterok:"${hapcaller_all_jobs}" \
     scripts/genomicsDBimport.sh))
 
-# STEP 7: Joined gentyping using GenomicsDB
+# STEP 7: JOINED GENOTYPING USING GenomicsDB
 
 declare -a gengvcfs_jobids
 
@@ -185,7 +185,7 @@ gengvcfs_jobids+=($(sbatch --cpus-per-task=8 --mem=64g --time=8:00:00 \
     scripts/genotype_gvcfs.sh))
 
 
-# STEP 8a: Variant recalibration and filtering for SNPs
+# STEP 8a: VARIANT RECALIBRATION AND FILTERING FOR SNPs
 
 declare -a var_recal_snps_jobids
 
@@ -197,7 +197,7 @@ var_recal_snps_jobids+=($(sbatch --cpus-per-task=8 --mem=64g --time=8:00:00 \
     --dependency=afterok:"${gengvcfs_jobids[0]}" \
     scripts/variant_recalibrator_snp.sh))
 
-# STEP 8b: Variant recalibration and filtering for INDELs
+# STEP 8b: VARIANT RECALIBRATION AND FILTERING FOR INDELs
 
 declare -a var_recal_indel_jobids
 
